@@ -27,12 +27,16 @@ tf.app.flags.DEFINE_integer("batch_size", 50,
                             "Batch size to use during training.")
 tf.app.flags.DEFINE_integer("size", 700, "Size of each model layer.")
 tf.app.flags.DEFINE_integer("embedding_size",700, "Word Embedding Dimension.")
-tf.app.flags.DEFINE_integer("num_layers", 3, "Number of layers in the model.")
-tf.app.flags.DEFINE_integer("source_vocab_size", 90000, "Source vocabulary size.")
-tf.app.flags.DEFINE_integer("target_vocab_size", 90000, "Target vocabulary size.")
-tf.app.flags.DEFINE_string("data_dir", "/home/cliffrwong/Documents/data/opensubtitles/en-de/lowerZero3/", "Data directory")
-tf.app.flags.DEFINE_string("train_dir", "/home/cliffrwong/Documents/data/opensubtitles/en-de/lowerZero3/checkpoint3/", "Training directory.")
-tf.app.flags.DEFINE_bool("source_lang", "en", "Language.")
+tf.app.flags.DEFINE_integer("num_layers", 1, "Number of layers in the model.")
+tf.app.flags.DEFINE_integer("source_vocab_size", 90000,
+                             "Source vocabulary size.")
+tf.app.flags.DEFINE_integer("target_vocab_size", 90000,
+                             "Target vocabulary size.")
+tf.app.flags.DEFINE_string("data_dir", "/tmp", "Data directory")
+tf.app.flags.DEFINE_string("train_dir", "/tmp", "Training directory.")
+tf.app.flags.DEFINE_bool("export", "en", "Save trained weights.")
+tf.app.flags.DEFINE_bool("shared", "en", "Share weigths" 
+                         "for encoder and decoder.")
 tf.app.flags.DEFINE_integer("max_train_data_size", 0,
                             "Limit on the size of training data (0: no limit).")
 tf.app.flags.DEFINE_integer("steps_per_checkpoint", 1000,
@@ -230,7 +234,10 @@ def saveParmas():
     #   pickle.dump(weight_var_value, fout)
 
 def main(_):
-    train()
+    if FLAGS.export:
+        saveParmas()
+    else:
+        train()
     # saveParmas()
 
 if __name__ == "__main__":
